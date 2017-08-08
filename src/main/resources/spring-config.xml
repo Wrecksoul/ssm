@@ -47,7 +47,7 @@
 		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
 		<!-- 自动扫描Mapping.xml文件 -->
 		<property name="mapperLocations"
-			value="classpath:com/taiji/basicDBService/mapper/*Mapper.xml"></property>
+			value="classpath:com/taiji/basicDBService/dao/mapper/*Mapper.xml"></property>
 	</bean>
 
 	<!-- 自动扫描com/hys/app/**/dao下的所有dao接口，并实现这些接口，可直接在程序中使用dao接口，不用再获取sqlsession对象 -->
