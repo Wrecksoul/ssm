@@ -1,25 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <!-- status="debug"可以看到log4j2的加载过程 -->
-<Configuration status="off" monitorInterval="3600">
+<Configuration status="debug" monitorInterval="5">
+	<!-- <Properties>
+		${web:rootDir} 的使用需要配置web.xml
+		<Property name="webroot">${web:rootDir}</Property>
+	</Properties> -->
 	<Appenders>
 		<!-- 日志级别分类 - 由高到低 - OFF、FATAL、ERROR、WARN、INFO、DEBUG、TRACE、ALL -->
 		<!-- 控制台输出 -->
 		<Console name="Console" target="SYSTEM_OUT">
 			<PatternLayout
-				pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %X{log_level} [%file] [%X{log_method}] - %msg%n" />
-			<Filters>
-				<!-- 设置只打印info级别的日志 -->
-				<ThresholdFilter level="debug" onMatch="ACCEPT"
-					onMismatch="DENY" />
-			</Filters>
+				pattern="%date{yyyy-MM-dd HH:mm:ss} [%t] %-5level (%F:%L) - %msg%n" />
 		</Console>
+		<Console name="Console1" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level (%F:%L) - %msg%n" />
+		</Console>
+		<File name="file" fileName="D:\basicDBService.log">
+			<PatternLayout pattern="%d %-5p [%t] %C{2} %class{4} %L %M - %m%n" />
+		</File>
+		<!-- async标签需要出现在它应用的appender之后，这样的可以异步日志在系统关闭的时候适时关闭 -->
+		<Async name="asyncFile">
+			<AppenderRef ref="file" />
+		</Async>
 	</Appenders>
-	
+
 	<!-- 日志输入控制 -->
 	<Loggers>
-		<Root level="DEBUG">
+		<Logger name="com.taiji" level="trace" additivity="false">
+			<AppenderRef ref="Console1" />
 			<AppenderRef ref="Console" />
+		</Logger>
+		<Root level="error">
+			<AppenderRef ref="Console1" />
 		</Root>
+		<Logger name="EventLogger" level="trace" additivity="false">
+		    <AppenderRef ref="file" />
+		</Logger>
 	</Loggers>
 </Configuration>
